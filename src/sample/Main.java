@@ -14,19 +14,25 @@ public class Main extends Application {
 
     Stage window;
     Scene scene1, scene2;
-    Button button1, button2, button3;
+    Button button1, button2, button3, btVisa, börskrasch;
     TextArea textArea;
-    Label label, title;
-    BorderPane borderPane;
+    Label label, title, rLabel;
+    BorderPane borderPane, top;
     VBox right;
-    HBox top, bottom;
+    HBox bottom;
     ComboBox comboBox;
 
+    final int MIN_HEIGHT = 400;
+    final int MIN_WIDTH = 600;
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
         window = primaryStage;
-        primaryStage.setTitle("Värdesaksregister");
-        textArea = new TextArea();
+        window.setMinHeight(MIN_HEIGHT);
+        window.setMinWidth(MIN_WIDTH);
+        window.setTitle("Värdesaksregister");
+
+        /*
         label = new Label();
         label.setText("Rawrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
         button1 = new Button("Go to scene 2!");
@@ -36,39 +42,47 @@ public class Main extends Application {
         button3 = new Button();
         button3.setOnAction(event -> AlertBox.display("test","This is a test!"));
 
+        scene2 = new Scene(layout2, 300, 250);
+        */
 
         right = new VBox(15);
         ToggleGroup group = new ToggleGroup();
-        RadioButton radioButton1 = new RadioButton("Namn");
-        radioButton1.setToggleGroup(group);
-        radioButton1.setSelected(true);
-        RadioButton radioButton2 = new RadioButton("Värde");
-        radioButton2.setToggleGroup(group);
-        right.getChildren().addAll(radioButton1, radioButton2);
+        RadioButton rb1 = new RadioButton("Namn");
+        rb1.setToggleGroup(group);
+        rb1.setSelected(true);
+        RadioButton rb2 = new RadioButton("Värde");
+        rb2.setToggleGroup(group);
+        rLabel = new Label();
+        rLabel.setText("Sortering");
+        right.getChildren().addAll(rLabel, rb1, rb2);
 
-        top = new HBox(15);
+        top = new BorderPane();
         title = new Label();
         title.setText("Värdesaker");
-        top.getChildren().add(title);
+        top.setCenter(title);
 
         bottom = new HBox(15);
         comboBox = new ComboBox();
         comboBox.getItems().addAll("Smycke", "Aktie", "Apparat");
-        bottom.getChildren().add(comboBox);
+        comboBox.setValue("Välj Värdesak");
+        btVisa = new Button("Visa");
+        börskrasch = new Button("Börskrasch");
+        bottom.getChildren().addAll(comboBox, btVisa, börskrasch);
 
-        StackPane layout1 = new StackPane();
-        layout1.getChildren().addAll(label, button1);
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().addAll(button2, button3);
+ //       StackPane layout1 = new StackPane();
+//        layout1.getChildren().addAll(label, button1);
+//        StackPane layout2 = new StackPane();
+//        layout2.getChildren().addAll(button2, button3);
 
         borderPane = new BorderPane();
+        textArea = new TextArea();
         borderPane.setCenter(textArea);
         borderPane.setRight(right);
         borderPane.setTop(top);
         borderPane.setBottom(bottom);
 
         scene1 = new Scene(borderPane, 300, 250);
-        scene2 = new Scene(layout2, 300, 250);
+
         primaryStage.setScene(scene1);
         primaryStage.show();
     }
