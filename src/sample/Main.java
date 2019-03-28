@@ -1,17 +1,13 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 
 public class Main extends Application {
@@ -20,7 +16,11 @@ public class Main extends Application {
     Scene scene1, scene2;
     Button button1, button2, button3;
     TextArea textArea;
-    Label label;
+    Label label, title;
+    BorderPane borderPane;
+    VBox right;
+    HBox top, bottom;
+    ComboBox comboBox;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -36,12 +36,38 @@ public class Main extends Application {
         button3 = new Button();
         button3.setOnAction(event -> AlertBox.display("test","This is a test!"));
 
+
+        right = new VBox(15);
+        ToggleGroup group = new ToggleGroup();
+        RadioButton radioButton1 = new RadioButton("Namn");
+        radioButton1.setToggleGroup(group);
+        radioButton1.setSelected(true);
+        RadioButton radioButton2 = new RadioButton("Värde");
+        radioButton2.setToggleGroup(group);
+        right.getChildren().addAll(radioButton1, radioButton2);
+
+        top = new HBox(15);
+        title = new Label();
+        title.setText("Värdesaker");
+        top.getChildren().add(title);
+
+        bottom = new HBox(15);
+        comboBox = new ComboBox();
+        comboBox.getItems().addAll("Smycke", "Aktie", "Apparat");
+        bottom.getChildren().add(comboBox);
+
         StackPane layout1 = new StackPane();
         layout1.getChildren().addAll(label, button1);
         StackPane layout2 = new StackPane();
-        layout2.getChildren().addAll(textArea, button2, button3);
+        layout2.getChildren().addAll(button2, button3);
 
-        scene1 = new Scene(layout1, 300, 250);
+        borderPane = new BorderPane();
+        borderPane.setCenter(textArea);
+        borderPane.setRight(right);
+        borderPane.setTop(top);
+        borderPane.setBottom(bottom);
+
+        scene1 = new Scene(borderPane, 300, 250);
         scene2 = new Scene(layout2, 300, 250);
         primaryStage.setScene(scene1);
         primaryStage.show();
