@@ -11,6 +11,7 @@ import javafx.stage.Window;
 public class AlertBox {
 
     public static void display(String title, String message){
+        /*
         Stage window = new Stage();
         window.setMinWidth(250);
         window.setMinHeight(250);
@@ -27,5 +28,6 @@ public class AlertBox {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
+        */
     }
 }

@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -10,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-public class Main extends Application {
+public class Main extends Application implements EventHandler<ActionEvent>{
 
     Stage window;
     Scene scene1, scene2;
@@ -65,6 +67,7 @@ public class Main extends Application {
         comboBox = new ComboBox();
         comboBox.getItems().addAll("Smycke", "Aktie", "Apparat");
         comboBox.setValue("Välj Värdesak");
+        comboBox.setOnAction(this);
         btVisa = new Button("Visa");
         börskrasch = new Button("Börskrasch");
         bottom.getChildren().addAll(comboBox, btVisa, börskrasch);
@@ -87,15 +90,20 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-/*    @Override
+    @Override
     public void handle(ActionEvent event) {
-        if (event.getSource() == button){
-            System.out.println("WOW!");
+        if (event.getSource() == comboBox){
+            System.out.println("its a box...combobox");
+            switch ((String)comboBox.getValue()){
+                case "Smycke":
+                    registerVärdesak.display("Nytt smycke");
+                    break;
+            }
         }else{
             System.out.println("Meh!");
         }
 
-    }*/
+    }
 
     public static void main(String[] args) {
         launch(args);
