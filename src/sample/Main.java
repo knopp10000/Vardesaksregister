@@ -3,11 +3,12 @@ package sample;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -63,6 +64,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         title.setText("Värdesaker");
         top.setCenter(title);
 
+
+
         bottom = new HBox(15);
         comboBox = new ComboBox();
         comboBox.getItems().addAll("Smycke", "Aktie", "Apparat");
@@ -70,7 +73,9 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         comboBox.setOnAction(this);
         btVisa = new Button("Visa");
         börskrasch = new Button("Börskrasch");
+        bottom.setAlignment(Pos.CENTER);
         bottom.getChildren().addAll(comboBox, btVisa, börskrasch);
+
 
  //       StackPane layout1 = new StackPane();
 //        layout1.getChildren().addAll(label, button1);
