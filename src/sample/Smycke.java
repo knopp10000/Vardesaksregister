@@ -17,6 +17,11 @@ public class Smycke extends Värdesak{
         return super.getValue();
     }
 
+    @Override
+    public String toString(){
+        return super.toString() + " antalÄdelstenar: " + antalÄdelstenar + " ärGuld: " + avGuld;
+    }
+
 
 
 }

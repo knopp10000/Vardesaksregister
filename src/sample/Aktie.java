@@ -21,6 +21,6 @@ public class Aktie extends Värdesak{
 
     @Override
     public String toString() {
-        return (super.namn + " värde: " + getValue() + " antal: " + antal + " kurs: " + kurs) ;
+        return super.toString() + " antal: " + antal + " kurs: " + kurs;
     }
 }

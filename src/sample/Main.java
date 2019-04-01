@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -49,6 +52,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         */
 
         right = new VBox(15);
+        right.setPadding(new Insets(10));
         ToggleGroup group = new ToggleGroup();
         RadioButton rb1 = new RadioButton("Namn");
         rb1.setToggleGroup(group);
@@ -61,7 +65,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 
         top = new BorderPane();
         title = new Label();
+        //Text text = new Text("Värdesaker");
+        //text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         title.setText("Värdesaker");
+
         top.setCenter(title);
 
 
@@ -74,6 +82,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         btVisa = new Button("Visa");
         börskrasch = new Button("Börskrasch");
         bottom.setAlignment(Pos.CENTER);
+        bottom.setPadding(new Insets(10));
         bottom.getChildren().addAll(comboBox, btVisa, börskrasch);
 
 
@@ -101,6 +110,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
             System.out.println("its a box...combobox");
             switch ((String)comboBox.getValue()){
                 case "Smycke":
+                    registerVärdesak.display("Nytt smycke");
+                    break;
+                case "Aktie":
+                    registerVärdesak.display("Ny Aktie");
+                    break;
+                case "Apparat":
                     registerVärdesak.display("Nytt smycke");
                     break;
             }

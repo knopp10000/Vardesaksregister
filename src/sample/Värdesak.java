@@ -3,7 +3,7 @@ package sample;
 public class Värdesak {
 
     private final Double MOMS = 1.25;
-    protected String namn;
+    private String namn;
     protected int value;
 
     Värdesak(String namn){
@@ -15,6 +15,6 @@ public class Värdesak {
     }
 
     public String toString(){
-        return (namn + " " + getValue());
+        return (namn + " värde: " + getValue());
     }
 }
