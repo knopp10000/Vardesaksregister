@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -30,6 +29,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 
     final int MIN_HEIGHT = 400;
     final int MIN_WIDTH = 600;
+
+    RegisterVärdesak registerVärdesak = new RegisterVärdesak();
 
     @Override
     public void start(Stage primaryStage) {
@@ -110,13 +111,13 @@ public class Main extends Application implements EventHandler<ActionEvent>{
             System.out.println("its a box...combobox");
             switch ((String)comboBox.getValue()){
                 case "Smycke":
-                    registerVärdesak.display("Nytt smycke");
+                    registerVärdesak.smycke();
                     break;
                 case "Aktie":
-                    registerVärdesak.display("Ny Aktie");
+                    registerVärdesak.aktie();
                     break;
                 case "Apparat":
-                    registerVärdesak.display("Nytt smycke");
+                    registerVärdesak.apparat();
                     break;
             }
         }else{
