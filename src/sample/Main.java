@@ -14,6 +14,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 
@@ -30,6 +32,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     final int MIN_HEIGHT = 400;
     final int MIN_WIDTH = 600;
 
+    Register register = new Register();
     RegisterVärdesak registerVärdesak = new RegisterVärdesak();
 
     @Override
@@ -86,14 +89,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         bottom.setPadding(new Insets(10));
         bottom.getChildren().addAll(comboBox, btVisa, börskrasch);
 
-
- //       StackPane layout1 = new StackPane();
-//        layout1.getChildren().addAll(label, button1);
-//        StackPane layout2 = new StackPane();
-//        layout2.getChildren().addAll(button2, button3);
-
         borderPane = new BorderPane();
         textArea = new TextArea();
+        //textArea.setWrapText(false);
+        textArea.setScrollLeft(0);
+        textArea.setEditable(false);
         borderPane.setCenter(textArea);
         borderPane.setRight(right);
         borderPane.setTop(top);
@@ -123,7 +123,16 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         }else{
             System.out.println("Meh!");
         }
+        updateTextArea();
+    }
 
+
+
+    private void updateTextArea() {
+        for (Värdesak värdesak: Register.getVärdesaker()) {
+            textArea.appendText(värdesak.toString() + "\n");
+
+        }
     }
 
     public static void main(String[] args) {

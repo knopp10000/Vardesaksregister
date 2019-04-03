@@ -20,20 +20,28 @@ import java.io.FileNotFoundException;
 
 public class RegisterVärdesak {
 
+    Register register = new Register();
     Stage window;
 
     void apparat(){
-        FlowPane input = new FlowPane();
+        GridPane input = new GridPane();
         input.setAlignment(Pos.CENTER_LEFT);
         input.setPadding(new Insets(10));
+
         Label namnLabel = new Label("Namn: ");
         TextField namnTextField = new TextField();
         Label prisLabel = new Label("Pris: ");
         TextField prisTextField = new TextField();
         Label skickLabel = new Label("Skick:");
         TextField skickTextField = new TextField();
-        input.getChildren().addAll(namnLabel, namnTextField, prisLabel, prisTextField, skickLabel, skickTextField);
-        display("Ny Apparat", input, new EventHandler<ActionEvent>(){
+
+        input.addRow(0, namnLabel, namnTextField);
+        input.addRow(1, prisLabel, prisTextField);
+        input.addRow(2, skickLabel, skickTextField);
+
+        //input.getChildren().addAll(namnLabel, namnTextField, prisLabel, prisTextField, skickLabel, skickTextField);
+
+        display("Ny Apparat", input, 350, 175, new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent actionEvent){
                 String namn = namnTextField.getText();
@@ -41,59 +49,72 @@ public class RegisterVärdesak {
                 int slitage = Integer.valueOf(skickTextField.getText());
                 Apparat apparat = new Apparat(namn, inköpspris, slitage);
                 System.out.println(apparat.toString());
+                Register.registerVärdesak(apparat);
                 window.close();
             }
         });
     }
 
     void aktie(){
-        FlowPane input = new FlowPane();
-        input.setAlignment(Pos.CENTER_LEFT);
+        GridPane input = new GridPane();
+        input.setHgap(5);
+        input.setVgap(5);
         input.setPadding(new Insets(10));
+        //input.setAlignment(Pos.CENTER_LEFT);
+        //input.setPadding(new Insets(10));
+
         Label namnLabel = new Label("Namn: ");
         TextField namnTextField = new TextField();
         Label antalLabel = new Label("Antal:");
         TextField antalTextField = new TextField();
         Label prisLabel = new Label("Pris: ");
         TextField prisTextField = new TextField();
-        input.getChildren().addAll(namnLabel, namnTextField, antalLabel, antalTextField, prisLabel, prisTextField);
-        display("Ny aktie", input, new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent actionEvent){
+
+        input.addRow(0, namnLabel, namnTextField);
+        input.addRow(1, antalLabel, antalTextField);
+        input.addRow(2, prisLabel, prisTextField);
+        //input.getChildren().addAll(namnLabel, namnTextField, antalLabel, antalTextField, prisLabel, prisTextField);
+        display("Ny aktie", input, 350, 175, e -> {
                 String namn = namnTextField.getText();
                 int antal = Integer.valueOf(antalTextField.getText());
                 int kurs = Integer.valueOf(prisTextField.getText()); //Är Kurs priset??
                 Aktie aktie = new Aktie(namn, antal, kurs);
                 System.out.println(aktie.toString());
+                Register.registerVärdesak(aktie);
                 window.close();
-            }
         });
     }
 
     void smycke(){
         FlowPane input = new FlowPane();
+        //input.setHgap(5);
+        //input.setVgap(5);
+        input.setPadding(new Insets(10));
+        input.setAlignment(Pos.CENTER_LEFT);
+
         Label namnLabel = new Label("Namn: ");
         TextField namnTextField = new TextField();
         Label stenarLabel = new Label("Stenar:");
-        TextField stenar = new TextField();
+        TextField stenarTextField = new TextField();
         CheckBox checkBox = new CheckBox("Av Guld");
-        input.getChildren().addAll(namnLabel, namnTextField, stenarLabel, stenar, checkBox);
-        input.setPadding(new Insets(10));
-        input.setAlignment(Pos.CENTER_LEFT);
-        display("Nytt Smycke", input, new EventHandler<ActionEvent>(){
+
+        input.getChildren().addAll(namnLabel, namnTextField, stenarLabel, stenarTextField, checkBox);
+
+        display("Nytt Smycke", input, 300, 225, new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent actionEvent){
                 String namn = namnTextField.getText();
-                int antalStenar = Integer.valueOf(stenar.getText());
+                int antalStenar = Integer.valueOf(stenarTextField.getText());
                 Boolean avGuld = checkBox.isSelected();
                 Smycke smycke = new Smycke(namn, antalStenar,avGuld);
                 System.out.println(smycke.toString());
+                Register.registerVärdesak(smycke);
                 window.close();
             }
         });
     }
 
-     private void display(String title, Pane input, EventHandler<ActionEvent> actionListener){
+     private void display(String title, Pane input, int width, int height, EventHandler<ActionEvent> actionListener){
          window = new Stage();
          window.setResizable(true);
          window.initModality(Modality.APPLICATION_MODAL);
@@ -125,7 +146,7 @@ public class RegisterVärdesak {
          } catch (FileNotFoundException e) {e.printStackTrace();}
          borderPane.setLeft(left);
 
-         Scene scene = new Scene(borderPane, 300, 225);
+         Scene scene = new Scene(borderPane, width, height);
          window.setScene(scene);
          window.showAndWait();
      };
