@@ -108,30 +108,29 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == comboBox){
-            System.out.println("its a box...combobox");
+            //System.out.println("its a box...combobox");
             switch ((String)comboBox.getValue()){
                 case "Smycke":
-                    registerVärdesak.smycke();
+                    SmyckeAlert alert = new SmyckeAlert();
+                    alert.showAndWait();
                     break;
                 case "Aktie":
-                    registerVärdesak.aktie();
+                    AktieAlert aktieAlert = new AktieAlert();
+                    aktieAlert.showAndWait();
                     break;
                 case "Apparat":
-                    registerVärdesak.apparat();
+                    ApparatAlert apparatAlert = new ApparatAlert();
+                    apparatAlert.showAndWait();
                     break;
             }
         }else{
-            System.out.println("Meh!");
+            System.out.println("how the hell did this happen?!");
         }
         updateTextArea();
     }
-
-
-
     private void updateTextArea() {
         for (Värdesak värdesak: Register.getVärdesaker()) {
             textArea.appendText(värdesak.toString() + "\n");
-
         }
     }
 
