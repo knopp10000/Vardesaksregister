@@ -34,7 +34,7 @@ public class SmyckeAlert extends Alert {
     public int getAntalStenar() {
         return Integer.parseInt(antalStenarField.getText());
     }
-    public Boolean isGuld(){
+    public boolean isGuld(){
         return checkBox.isSelected();
     }
 

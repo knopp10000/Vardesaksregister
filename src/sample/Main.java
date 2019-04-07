@@ -15,6 +15,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class Main extends Application implements EventHandler<ActionEvent>{
@@ -32,8 +33,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     final int MIN_HEIGHT = 400;
     final int MIN_WIDTH = 600;
 
-    Register register = new Register();
-    RegisterVärdesak registerVärdesak = new RegisterVärdesak();
+    ArrayList<Värdesak> värdesaker = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -41,19 +41,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         window.setMinHeight(MIN_HEIGHT);
         window.setMinWidth(MIN_WIDTH);
         window.setTitle("Värdesaksregister");
-
-        /*
-        label = new Label();
-        label.setText("Rawrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-        button1 = new Button("Go to scene 2!");
-        button1.setOnAction(e -> window.setScene(scene2));
-        button2 = new Button("Go to scene 1");
-        button2.setOnAction(e -> window.setScene(scene1));
-        button3 = new Button();
-        button3.setOnAction(event -> AlertBox.display("test","This is a test!"));
-
-        scene2 = new Scene(layout2, 300, 250);
-        */
 
         right = new VBox(15);
         right.setPadding(new Insets(10));
@@ -73,9 +60,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         //text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         title.setText("Värdesaker");
-
         top.setCenter(title);
-
 
 
         bottom = new HBox(15);
@@ -108,28 +93,83 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == comboBox){
-            //System.out.println("its a box...combobox");
             switch ((String)comboBox.getValue()){
                 case "Smycke":
-                    SmyckeAlert alert = new SmyckeAlert();
-                    alert.showAndWait();
+                    registerSmycke();
                     break;
                 case "Aktie":
-                    AktieAlert aktieAlert = new AktieAlert();
-                    aktieAlert.showAndWait();
+                    registerAktie();
                     break;
                 case "Apparat":
-                    ApparatAlert apparatAlert = new ApparatAlert();
-                    apparatAlert.showAndWait();
+                    registerApparat();
                     break;
             }
+            updateTextArea();
         }else{
             System.out.println("how the hell did this happen?!");
         }
-        updateTextArea();
     }
+    private void registerSmycke(){
+        try {
+            SmyckeAlert alert = new SmyckeAlert();
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                värdesaker.add(
+                        new Smycke(
+                                alert.getName(),
+                                alert.getAntalStenar(),
+                                alert.isGuld()
+                        ));
+            }
+        } catch (NumberFormatException e) {
+            showErrorMessage();
+        }
+    }
+    private void registerAktie(){
+        try {
+            AktieAlert alert = new AktieAlert();
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                värdesaker.add(
+                        new Aktie(
+                                alert.getName(),
+                                alert.getAntal(),
+                                alert.getPris()
+                        ));
+            }
+        } catch (NumberFormatException e) {
+            showErrorMessage();
+        }
+    }
+    private void registerApparat(){
+        try {
+            ApparatAlert alert = new ApparatAlert();
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                värdesaker.add(
+                        new Apparat(
+                                alert.getName(),
+                                alert.getPris(),
+                                alert.getSkick()
+                        ));
+            }
+        } catch (NumberFormatException e) {
+            showErrorMessage();
+        }
+    }
+
+    private void showErrorMessage() {
+        Alert msg = new Alert(Alert.AlertType.ERROR, "Felaktig inmating!");
+        msg.setTitle("Fel!");
+        msg.setHeaderText("");
+        msg.showAndWait();
+    }
+
     private void updateTextArea() {
-        for (Värdesak värdesak: Register.getVärdesaker()) {
+        for (Värdesak värdesak: värdesaker) {
             textArea.appendText(värdesak.toString() + "\n");
         }
     }
