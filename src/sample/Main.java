@@ -35,6 +35,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 
     ArrayList<Värdesak> värdesaker = new ArrayList<>();
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         window = primaryStage;
@@ -48,8 +52,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         RadioButton rb1 = new RadioButton("Namn");
         rb1.setToggleGroup(group);
         rb1.setSelected(true);
+        rb1.setOnAction(e -> sortByName());
         RadioButton rb2 = new RadioButton("Värde");
         rb2.setToggleGroup(group);
+        rb2.setOnAction(e -> sortByVärde());
         rLabel = new Label();
         rLabel.setText("Sortering");
         right.getChildren().addAll(rLabel, rb1, rb2);
@@ -69,6 +75,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         comboBox.setValue("Välj Värdesak");
         comboBox.setOnAction(this);
         btVisa = new Button("Visa");
+        btVisa.setOnAction(e -> updateTextArea());
         börskrasch = new Button("Börskrasch");
         bottom.setAlignment(Pos.CENTER);
         bottom.setPadding(new Insets(10));
@@ -89,7 +96,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         primaryStage.setScene(scene1);
         primaryStage.show();
     }
-
     @Override
     public void handle(ActionEvent event) {
         if (event.getSource() == comboBox){
@@ -104,7 +110,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
                     registerApparat();
                     break;
             }
-            updateTextArea();
         }else{
             System.out.println("how the hell did this happen?!");
         }
@@ -169,12 +174,23 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     }
 
     private void updateTextArea() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (Värdesak värdesak: värdesaker) {
-            textArea.appendText(värdesak.toString() + "\n");
+            stringBuilder.append(värdesak.toString() + "\n");
         }
+        textArea.setText(stringBuilder.toString());
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    private void sortByVärde() {
+        värdesaker.sort((Värdesak värdesak1, Värdesak värdesak2) -> {
+            if (värdesak1.getValue() > värdesak2.getValue()){
+                return -1;
+            } else if (värdesak1.getValue() < värdesak2.getValue()){
+                return 1;
+            }else return 0;
+        });
+    }
+    private void sortByName() {
+
     }
 }
