@@ -22,7 +22,7 @@ public class ApparatAlert extends Alert {
         grid.setHgap(5);
         grid.setVgap(10);
         grid.addRow(0, new Label("Name:"), nameField);
-        grid.addRow(1, new Label("Pris::"), prisField);
+        grid.addRow(1, new Label("Pris:"), prisField);
         grid.addRow(2, new Label("Skick:"), skickField);
         setHeaderText(null);
         getDialogPane().setContent(grid);

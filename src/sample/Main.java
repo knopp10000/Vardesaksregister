@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class Main extends Application implements EventHandler<ActionEvent>{
+public class Main extends Application{
 
     Stage window;
     Scene scene1, scene2;
@@ -28,7 +30,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     BorderPane borderPane, top;
     VBox right;
     HBox bottom;
-    ComboBox comboBox;
+    MenuButton menuButton;
+    RadioButton rb1, rb2;
 
     final int MIN_HEIGHT = 400;
     final int MIN_WIDTH = 600;
@@ -49,42 +52,44 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         right = new VBox(15);
         right.setPadding(new Insets(10));
         ToggleGroup group = new ToggleGroup();
-        RadioButton rb1 = new RadioButton("Namn");
+        rb1 = new RadioButton("Namn");
         rb1.setToggleGroup(group);
         rb1.setSelected(true);
-        rb1.setOnAction(e -> sortByName());
-        RadioButton rb2 = new RadioButton("Värde");
+        rb2 = new RadioButton("Värde");
         rb2.setToggleGroup(group);
-        rb2.setOnAction(e -> sortByVärde());
         rLabel = new Label();
         rLabel.setText("Sortering");
         right.getChildren().addAll(rLabel, rb1, rb2);
 
         top = new BorderPane();
         title = new Label();
-        //Text text = new Text("Värdesaker");
-        //text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         title.setText("Värdesaker");
         top.setCenter(title);
 
 
         bottom = new HBox(15);
-        comboBox = new ComboBox();
-        comboBox.getItems().addAll("Smycke", "Aktie", "Apparat");
-        comboBox.setValue("Välj Värdesak");
-        comboBox.setOnAction(this);
+        menuButton = new MenuButton("Välj Värdesak");
+        MenuItem smyckeItem = new MenuItem("Smycke          ");
+        MenuItem aktieItem = new MenuItem("Aktie            ");
+        MenuItem apparatItem = new MenuItem("Apparat            ");
+
+        smyckeItem.setOnAction(event -> registerSmycke());
+        aktieItem.setOnAction(event -> registerAktie());
+        apparatItem.setOnAction(event -> registerApparat());
+        menuButton.getItems().addAll(smyckeItem, aktieItem, apparatItem);
+
         btVisa = new Button("Visa");
         btVisa.setOnAction(e -> updateTextArea());
+
         börskrasch = new Button("Börskrasch");
+
         bottom.setAlignment(Pos.CENTER);
         bottom.setPadding(new Insets(10));
-        bottom.getChildren().addAll(comboBox, btVisa, börskrasch);
+        bottom.getChildren().addAll(menuButton, btVisa, börskrasch);
 
         borderPane = new BorderPane();
         textArea = new TextArea();
-        //textArea.setWrapText(false);
-        textArea.setScrollLeft(0);
         textArea.setEditable(false);
         borderPane.setCenter(textArea);
         borderPane.setRight(right);
@@ -92,27 +97,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         borderPane.setBottom(bottom);
 
         scene1 = new Scene(borderPane, 300, 250);
-
         primaryStage.setScene(scene1);
         primaryStage.show();
-    }
-    @Override
-    public void handle(ActionEvent event) {
-        if (event.getSource() == comboBox){
-            switch ((String)comboBox.getValue()){
-                case "Smycke":
-                    registerSmycke();
-                    break;
-                case "Aktie":
-                    registerAktie();
-                    break;
-                case "Apparat":
-                    registerApparat();
-                    break;
-            }
-        }else{
-            System.out.println("how the hell did this happen?!");
-        }
     }
     private void registerSmycke(){
         try {
@@ -174,11 +160,21 @@ public class Main extends Application implements EventHandler<ActionEvent>{
     }
 
     private void updateTextArea() {
+        if (isSortingByName()){
+            sortByName();
+        }else{
+            sortByVärde();
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         for (Värdesak värdesak: värdesaker) {
-            stringBuilder.append(värdesak.toString() + "\n");
+            stringBuilder.append(värdesak.toString()).append("\n");
         }
         textArea.setText(stringBuilder.toString());
+    }
+
+    public boolean isSortingByName(){
+        return rb1.isSelected();
     }
 
     private void sortByVärde() {
@@ -191,6 +187,13 @@ public class Main extends Application implements EventHandler<ActionEvent>{
         });
     }
     private void sortByName() {
-
+        värdesaker.sort((Värdesak värdesak1, Värdesak värdesak2) -> {
+            int comparison = värdesak1.getName().compareTo(värdesak2.getName());
+            if (comparison > 0){
+                return 1;
+            } else if (comparison < 0){
+                return -1;
+            }else return 0;
+        });
     }
 }

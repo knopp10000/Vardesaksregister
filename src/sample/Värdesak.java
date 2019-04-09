@@ -14,6 +14,10 @@ public class Värdesak {
         return value*MOMS;
     }
 
+    public String getName(){
+        return namn;
+    }
+
     public String toString(){
         return (namn + " värde: " + getValue());
     }
