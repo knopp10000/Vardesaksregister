@@ -1,14 +1,10 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,21 +18,11 @@ import java.util.Optional;
 
 public class Main extends Application{
 
-    Stage window;
-    Scene scene1, scene2;
-    Button button1, button2, button3, btVisa, börskrasch;
-    TextArea textArea;
-    Label label, title, rLabel;
-    BorderPane borderPane, top;
-    VBox right;
-    HBox bottom;
-    MenuButton menuButton;
-    RadioButton rb1, rb2;
+    private TextArea textArea;
+    private final int MIN_HEIGHT = 400;
+    private final int MIN_WIDTH = 600;
 
-    final int MIN_HEIGHT = 400;
-    final int MIN_WIDTH = 600;
-
-    ArrayList<Värdesak> värdesaker = new ArrayList<>();
+    private ArrayList<Värdesak> värdesaker = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -44,32 +30,31 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) {
-        window = primaryStage;
-        window.setMinHeight(MIN_HEIGHT);
-        window.setMinWidth(MIN_WIDTH);
-        window.setTitle("Värdesaksregister");
+        primaryStage.setMinHeight(MIN_HEIGHT);
+        primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setTitle("Värdesaksregister");
 
-        right = new VBox(15);
+        VBox right = new VBox(15);
         right.setPadding(new Insets(10));
         ToggleGroup group = new ToggleGroup();
-        rb1 = new RadioButton("Namn");
+        RadioButton rb1 = new RadioButton("Namn");
         rb1.setToggleGroup(group);
         rb1.setSelected(true);
-        rb2 = new RadioButton("Värde");
+        RadioButton rb2 = new RadioButton("Värde");
         rb2.setToggleGroup(group);
-        rLabel = new Label();
+        Label rLabel = new Label();
         rLabel.setText("Sortering");
         right.getChildren().addAll(rLabel, rb1, rb2);
 
-        top = new BorderPane();
-        title = new Label();
+        BorderPane top = new BorderPane();
+        Label title = new Label();
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
         title.setText("Värdesaker");
         top.setCenter(title);
 
 
-        bottom = new HBox(15);
-        menuButton = new MenuButton("Välj Värdesak");
+        HBox bottom = new HBox(15);
+        MenuButton menuButton = new MenuButton("Välj Värdesak");
         MenuItem smyckeItem = new MenuItem("Smycke          ");
         MenuItem aktieItem = new MenuItem("Aktie            ");
         MenuItem apparatItem = new MenuItem("Apparat            ");
@@ -79,16 +64,16 @@ public class Main extends Application{
         apparatItem.setOnAction(event -> registerApparat());
         menuButton.getItems().addAll(smyckeItem, aktieItem, apparatItem);
 
-        btVisa = new Button("Visa");
-        btVisa.setOnAction(e -> updateTextArea());
+        Button btVisa = new Button("Visa");
+        btVisa.setOnAction(e -> updateTextArea(rb1.isSelected()));
 
-        börskrasch = new Button("Börskrasch");
+        Button börskrasch = new Button("Börskrasch");
 
         bottom.setAlignment(Pos.CENTER);
         bottom.setPadding(new Insets(10));
         bottom.getChildren().addAll(menuButton, btVisa, börskrasch);
 
-        borderPane = new BorderPane();
+        BorderPane borderPane = new BorderPane();
         textArea = new TextArea();
         textArea.setEditable(false);
         borderPane.setCenter(textArea);
@@ -96,7 +81,7 @@ public class Main extends Application{
         borderPane.setTop(top);
         borderPane.setBottom(bottom);
 
-        scene1 = new Scene(borderPane, 300, 250);
+        Scene scene1 = new Scene(borderPane, 300, 250);
         primaryStage.setScene(scene1);
         primaryStage.show();
     }
@@ -159,8 +144,8 @@ public class Main extends Application{
         msg.showAndWait();
     }
 
-    private void updateTextArea() {
-        if (isSortingByName()){
+    private void updateTextArea(boolean shouldSortByName) {
+        if (shouldSortByName){
             sortByName();
         }else{
             sortByVärde();
@@ -173,9 +158,9 @@ public class Main extends Application{
         textArea.setText(stringBuilder.toString());
     }
 
-    public boolean isSortingByName(){
+/*    private boolean isSortingByName(){
         return rb1.isSelected();
-    }
+    }*/
 
     private void sortByVärde() {
         värdesaker.sort((Värdesak värdesak1, Värdesak värdesak2) -> {
