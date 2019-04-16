@@ -10,7 +10,7 @@ public class Apparat extends Värdesak {
         this.slitage = slitage;
     }
 
-    double getValue() {
+    public double getValue() {
         value = (inköpspris/10)*slitage;
         return super.getValue();
     }

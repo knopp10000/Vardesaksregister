@@ -21,7 +21,7 @@ public class Main extends Application{
     private TextArea textArea;
     private final int MIN_HEIGHT = 400;
     private final int MIN_WIDTH = 600;
-    RadioButton rb1;
+    private RadioButton rb1;
 
     private ArrayList<Värdesak> värdesaker = new ArrayList<>();
 

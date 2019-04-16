@@ -11,7 +11,7 @@ public class Smycke extends Värdesak{
         this.avGuld = avGuld;
     }
 
-    double getValue(){
+    public double getValue(){
         value = avGuld ? 2000 : 700;
         value += 500*antalÄdelstenar;
         return super.getValue();

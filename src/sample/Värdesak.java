@@ -10,7 +10,7 @@ public class Värdesak {
         this.namn = namn;
     }
 
-    double getValue(){
+    protected double getValue(){
         return value*MOMS;
     }
 
