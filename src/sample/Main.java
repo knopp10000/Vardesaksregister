@@ -21,6 +21,7 @@ public class Main extends Application{
     private TextArea textArea;
     private final int MIN_HEIGHT = 400;
     private final int MIN_WIDTH = 600;
+    RadioButton rb1;
 
     private ArrayList<Värdesak> värdesaker = new ArrayList<>();
 
@@ -37,7 +38,7 @@ public class Main extends Application{
         VBox right = new VBox(15);
         right.setPadding(new Insets(10));
         ToggleGroup group = new ToggleGroup();
-        RadioButton rb1 = new RadioButton("Namn");
+        rb1 = new RadioButton("Namn");
         rb1.setToggleGroup(group);
         rb1.setSelected(true);
         RadioButton rb2 = new RadioButton("Värde");
@@ -65,13 +66,14 @@ public class Main extends Application{
         menuButton.getItems().addAll(smyckeItem, aktieItem, apparatItem);
 
         Button btVisa = new Button("Visa");
-        btVisa.setOnAction(e -> updateTextArea(rb1.isSelected()));
+        btVisa.setOnAction(e -> updateTextArea());
 
-        Button börskrasch = new Button("Börskrasch");
+        Button btBörskrasch = new Button("Börskrasch");
+        btBörskrasch.setOnAction(event -> börskrasch());
 
         bottom.setAlignment(Pos.CENTER);
         bottom.setPadding(new Insets(10));
-        bottom.getChildren().addAll(menuButton, btVisa, börskrasch);
+        bottom.getChildren().addAll(menuButton, btVisa, btBörskrasch);
 
         BorderPane borderPane = new BorderPane();
         textArea = new TextArea();
@@ -85,6 +87,16 @@ public class Main extends Application{
         primaryStage.setScene(scene1);
         primaryStage.show();
     }
+
+    private void börskrasch() {
+        for (Värdesak värdesak: värdesaker) {
+            if (värdesak instanceof Aktie){
+                ((Aktie) värdesak).setKurs(0);
+            }
+        }
+        updateTextArea();
+    }
+
     private void registerSmycke(){
         try {
             SmyckeAlert alert = new SmyckeAlert();
@@ -144,13 +156,12 @@ public class Main extends Application{
         msg.showAndWait();
     }
 
-    private void updateTextArea(boolean shouldSortByName) {
-        if (shouldSortByName){
+    private void updateTextArea() {
+        if (isSortingByName()){
             sortByName();
         }else{
             sortByVärde();
         }
-
         StringBuilder stringBuilder = new StringBuilder();
         for (Värdesak värdesak: värdesaker) {
             stringBuilder.append(värdesak.toString()).append("\n");
@@ -158,9 +169,9 @@ public class Main extends Application{
         textArea.setText(stringBuilder.toString());
     }
 
-/*    private boolean isSortingByName(){
+    private boolean isSortingByName(){
         return rb1.isSelected();
-    }*/
+    }
 
     private void sortByVärde() {
         värdesaker.sort((Värdesak värdesak1, Värdesak värdesak2) -> {

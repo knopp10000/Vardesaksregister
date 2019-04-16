@@ -10,12 +10,12 @@ public class Aktie extends Värdesak{
         this.kurs = kurs;
     }
 
-    double getValue(){
+    public double getValue(){
         value = antal*kurs;
         return super.getValue();
     }
 
-    void setKurs(int kurs){
+    public void setKurs(int kurs){
         this.kurs = kurs;
     }
 
