@@ -103,12 +103,18 @@ public class Main extends Application{
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                värdesaker.add(
-                        new Smycke(
-                                alert.getName(),
-                                alert.getAntalStenar(),
-                                alert.isGuld()
-                        ));
+                String namn = alert.getNamn();
+                int antal = alert.getAntalStenar();
+
+                if (!namn.trim().isEmpty()){
+                    if (antal >= 0){
+                        värdesaker.add(new Smycke(namn, antal, alert.isGuld()));
+                    }else {
+                        showErrorMessage("Antalet stenar får inte vara negativt");
+                    }
+                }else{
+                    showErrorMessage("Namnfältet är tomt!");
+                }
             }
         } catch (NumberFormatException e) {
             showErrorMessage();
@@ -120,12 +126,23 @@ public class Main extends Application{
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                värdesaker.add(
-                        new Aktie(
-                                alert.getName(),
-                                alert.getAntal(),
-                                alert.getPris()
-                        ));
+                String namn = alert.getNamn();
+                int antal = alert.getAntal();
+                int kurs = alert.getKurs();
+
+                if (!namn.trim().isEmpty()){
+                    if (antal > 0){
+                        if (kurs >= 0) {
+                            värdesaker.add(new Aktie(namn, antal, kurs));
+                        }else {
+                            showErrorMessage("kursen på aktien får inte vara mindre än noll");
+                        }
+                    }else {
+                        showErrorMessage("Antalet aktier måste överskrida 0");
+                    }
+                }else{
+                    showErrorMessage("Namnfältet är tomt!");
+                }
             }
         } catch (NumberFormatException e) {
             showErrorMessage();
@@ -137,12 +154,23 @@ public class Main extends Application{
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                värdesaker.add(
-                        new Apparat(
-                                alert.getName(),
-                                alert.getPris(),
-                                alert.getSkick()
-                        ));
+                String namn = alert.getNamn();
+                int pris = alert.getPris();
+                int skick = alert.getSkick();
+
+                if (!namn.trim().isEmpty()){
+                    if (pris > 0){
+                        if (skick <= 10 && skick >= 1) {
+                            värdesaker.add(new Apparat(namn, pris, skick));
+                        }else {
+                            showErrorMessage("skicket på aktien måste vara ett tal mellan 1 och 10");
+                        }
+                    }else {
+                        showErrorMessage("Priset på apparaten måste överskrida 0");
+                    }
+                }else{
+                    showErrorMessage("Namnfältet är tomt!");
+                }
             }
         } catch (NumberFormatException e) {
             showErrorMessage();
@@ -151,6 +179,12 @@ public class Main extends Application{
 
     private void showErrorMessage() {
         Alert msg = new Alert(Alert.AlertType.ERROR, "Felaktig inmating!");
+        msg.setTitle("Fel!");
+        msg.setHeaderText("");
+        msg.showAndWait();
+    }
+    private void showErrorMessage(String felmeddelande) {
+        Alert msg = new Alert(Alert.AlertType.ERROR, felmeddelande);
         msg.setTitle("Fel!");
         msg.setHeaderText("");
         msg.showAndWait();
