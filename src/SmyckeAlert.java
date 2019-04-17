@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -8,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
+//Karl Gustafsson 19990507-1313
 public class SmyckeAlert extends Alert {
     private TextField nameField = new TextField();
     private TextField antalStenarField = new TextField("0");

@@ -1,5 +1,3 @@
-package sample;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,7 +13,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Optional;
 
-
+//Karl Gustafsson 19990507-1313
 public class Main extends Application{
 
     private TextArea textArea;

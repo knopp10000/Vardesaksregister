@@ -1,5 +1,4 @@
-package sample;
-
+//Karl Gustafsson 19990507-1313
 public class Smycke extends Värdesak{
 
     private int antalÄdelstenar;
